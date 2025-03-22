@@ -52,10 +52,11 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void addProduct(Scanner input) {
-        ArrayList<String> product = new ArrayList<>();
 
         int productNumber = 1;
         while (true) {
+            ArrayList<String> product = new ArrayList<>();
+
             String ID = generateProductID(productNumber);
             System.out.println("Product ID: " + ID);
 
@@ -105,11 +106,11 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void viewInventory() {
+        System.out.printf("| %8s | %12s | %12s | %12s | %12s |\n", "ID", "Product Name", "Ingredients", "Status", "Price");
         for (ArrayList<String> product : products) {
-            for (String s : product) {
-                System.out.print(s + " ");
-            }
-            System.out.print("\n");
+//            for (int j = 0; j < product.size(); j++) {
+                System.out.printf("| %8s | %12s | %12s | %12s | %12s |\n", product.get(0), product.get(1), product.get(2), product.get(3), product.get(4));
+//            }
         }
     }
 

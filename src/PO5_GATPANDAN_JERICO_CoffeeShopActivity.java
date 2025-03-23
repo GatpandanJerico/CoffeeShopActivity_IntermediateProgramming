@@ -73,9 +73,16 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
                 }
             }
 
-
-            System.out.print("Enter Product price: ");
-            String productPrice = input.nextLine();
+            String productPrice;
+            while (true) {
+                System.out.print("Enter Product price: ");
+                productPrice = input.nextLine().trim();
+                if (productPrice.matches("\\d+")) {
+                    break;
+                } else {
+                    System.out.println("Invalid input. Please enter a valid integer.");
+                }
+            }
 
             productNumber++;
 
@@ -101,6 +108,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void editProduct() {
+
     }
 
     private static void deleteProduct() {
@@ -115,16 +123,44 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     private static void viewOrder() {
     }
 
+//    private static void viewInventory() {
+//
+//        System.out.printf("________________________________________________________________________%n");
+//        System.out.printf("| %8s | %12s | %12s | %12s | %12s |\n", "ID", "Product Name", "Ingredients", "Status", "Price");
+//        for (ArrayList<String> product : products) {
+//            product.set(3, product.get(3).equals("0") ? "Available" : "Not Available");
+//            System.out.printf("| %8s | %12s | %12s | %12s | %-10s |\n", product.get(0), product.get(1), product.get(2), product.get(3), "PHP " +product.get(4));
+//        }
+//        System.out.printf("________________________________________________________________________%n");
+//
+//    }
+
     private static void viewInventory() {
+        int ID_WIDTH = 8;
+        int NAME_WIDTH = 14;
+        int INGREDIENTS_WIDTH = 14;
+        int STATUS_WIDTH = 14;
+        int PRICE_WIDTH = 14;
+        int totalWidth = ID_WIDTH + NAME_WIDTH + INGREDIENTS_WIDTH + STATUS_WIDTH + PRICE_WIDTH + 14;
+        String border = "-".repeat(totalWidth);
 
-        System.out.printf("________________________________________________________________________%n");
-        System.out.printf("| %8s | %12s | %12s | %12s | %12s |\n", "ID", "Product Name", "Ingredients", "Status", "Price");
+        System.out.println(border);
+        System.out.printf("| %" + ID_WIDTH + "s | %" + NAME_WIDTH + "s | %" + INGREDIENTS_WIDTH + "s | %" + STATUS_WIDTH + "s | %" + PRICE_WIDTH + "s |\n",
+                "ID", "Product Name", "Ingredients", "Status", "Price");
+        System.out.println(border);
+
         for (ArrayList<String> product : products) {
-            product.set(3, product.get(3).equals("0") ? "Available" : "Not Available");
-            System.out.printf("| %8s | %12s | %12s | %12s | %12s |\n", product.get(0), product.get(1), product.get(2), product.get(3), product.get(4));
-        }
-        System.out.printf("________________________________________________________________________%n");
+            String id = product.get(0);
+            String name = product.get(1);
+            String ingredients = product.get(2);
+            String status = product.get(3).equals("0") ? "Available" : "Not Available";
+            double price = Double.parseDouble(product.get(4));
+            String formattedPrice = String.format("PHP %.2f", price);
 
+            System.out.printf("| %" + ID_WIDTH + "s | %" + NAME_WIDTH + "s | %" + INGREDIENTS_WIDTH + "s | %" + STATUS_WIDTH + "s | %-" + PRICE_WIDTH + "s |\n",
+                    id, name, ingredients, status, formattedPrice);
+        }
+        System.out.println(border);
     }
 
     private static String generateProductID(int productID) {

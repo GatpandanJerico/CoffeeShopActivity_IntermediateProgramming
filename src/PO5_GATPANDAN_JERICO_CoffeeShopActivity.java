@@ -61,7 +61,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             String ID = generateProductID(productNumber);
             System.out.println("\nProduct ID: " + ID);
 
-            // TODO product name should not be duplicated
+            /* TODO product name should not be duplicated */
 
             System.out.print("Enter Product Name: ");
             String productName = input.nextLine();
@@ -140,15 +140,42 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             }
 
             viewMenu();
-            System.out.print("Enter Order Name: ");
-            String orderName = input.nextLine();
 
-            System.out.print("Enter the quantity of the product: ");
-            String orderQuantity = input.nextLine();
+            /* TODO check if the order name exist in product inventory  */
+            String orderName;
+            while (true) {
+                System.out.print("Enter Order Name: ");
+                orderName = input.nextLine();
+                if (isValidProduct(orderName)) {
+                    break;
+                } else {
+                    System.out.println("Invalid product. Please choose from the menu.");
+                }
+            }
+            String orderQuantity;
+            while (true) {
+                System.out.print("Enter the quantity of the product: ");
+                orderQuantity = input.nextLine();
+                if (orderQuantity.matches("\\d+") && Double.parseDouble(orderQuantity) > 0) {
+                    break;
+                } else {
+                    System.out.println("Invalid quantity. Please enter a valid quantity.");
+                }
+            }
 
-            System.out.print("Enter sugar level: ");
-            String sugarLevel = input.nextLine();
+            String sugarLevel;
+            while (true) {
 
+                System.out.print("Enter sugar level: ");
+                sugarLevel = input.nextLine();
+                int sugarLevelInt = Integer.parseInt(sugarLevel);
+                if (orderQuantity.matches("\\d+") && (sugarLevelInt >= 0 && sugarLevelInt <= 100)) {
+                    break;
+                } else {
+                    System.out.println("Invalid sugar level. Please enter a valid quantity.");
+                }
+
+            }
 
             order.add(ID);
             order.add(customerName);
@@ -170,6 +197,15 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             }
         }
 
+    }
+
+    private static boolean isValidProduct(String orderName) {
+        for (ArrayList<String> product : products) {
+            if (product.get(1).contains(orderName)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static void viewMenu() {
@@ -203,6 +239,55 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void viewOrder() {
+        /* ORDER ID | CUSTOMER NAME | PRODUCT NAME | QUANTITY | SUGAR LEVEL | AMOUNT |  and compute the total price of each by quantity and compute for the total sum */
+        int ID_WIDTH = 8;
+        int CUSTOMER_NAME_WIDTH = 14;
+        int PRODUCT_NAME_WIDTH = 14;
+        int QUANTITY_WIDTH = 8;
+        int SUGAR_LEVEL_WIDTH = 14;
+        int AMOUNT_WIDTH = 16;
+        int totalWidth = ID_WIDTH + CUSTOMER_NAME_WIDTH + PRODUCT_NAME_WIDTH + QUANTITY_WIDTH + SUGAR_LEVEL_WIDTH + AMOUNT_WIDTH + 16;
+        String border = "-".repeat(totalWidth);
+
+        System.out.println(border);
+        System.out.printf("| %" + ID_WIDTH + "s | %" + CUSTOMER_NAME_WIDTH + "s | %" + PRODUCT_NAME_WIDTH + "s | %" + QUANTITY_WIDTH + "s | %" + SUGAR_LEVEL_WIDTH + "s | %" + AMOUNT_WIDTH + "s |\n",
+                "Order ID", "Customer Name","Product Name", "Quantity", "Sugar Level", "Amount");
+        System.out.println(border);
+
+        double totalSum = 0;
+
+        for (ArrayList<String> order : orders) {
+            String id = order.get(0);
+            String customerName = order.get(1);
+            String productName = order.get(2);
+            int quantity = Integer.parseInt(order.get(3));
+            String sugarLevel = order.get(4) + "%";
+            double productPrice = getProductPrice(productName);
+            double amount = productPrice * quantity;
+
+            totalSum += amount;
+            String formattedAmount = String.format("PHP %.2f", amount);
+
+            System.out.printf("| %" + ID_WIDTH + "s | %" + CUSTOMER_NAME_WIDTH + "s | %" + PRODUCT_NAME_WIDTH + "s | %" + QUANTITY_WIDTH + "d | %" + SUGAR_LEVEL_WIDTH + "s | %" + AMOUNT_WIDTH + "s |\n", id, customerName, productName, quantity, sugarLevel, formattedAmount);
+        }
+        System.out.println(border);
+        String text = "TOTAL";
+        String formattedTotal = String.format("PHP %.2f", totalSum);
+        int totalSumWidth = ID_WIDTH + CUSTOMER_NAME_WIDTH + PRODUCT_NAME_WIDTH + QUANTITY_WIDTH + SUGAR_LEVEL_WIDTH + 12;
+        int padding = (totalSumWidth - text.length()) / 2;
+        String paddedText = " ".repeat(padding) + text + " ".repeat(totalSumWidth - padding - text.length());
+        System.out.printf("| %s | %" + AMOUNT_WIDTH + "s |\n", paddedText, formattedTotal);
+        System.out.println(border);
+
+    }
+
+    private static double getProductPrice(String productName) {
+        for (ArrayList<String> product : products) {
+            if (product.get(1).equalsIgnoreCase(productName)) {
+                return Double.parseDouble(product.get(4));
+            }
+        }
+        return 0;
     }
 
     private static void viewInventory() {

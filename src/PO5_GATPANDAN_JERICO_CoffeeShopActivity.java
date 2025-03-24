@@ -61,10 +61,17 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             String ID = generateProductID(productNumber);
             System.out.println("\nProduct ID: " + ID);
 
-            /* TODO product name should not be duplicated */
 
-            System.out.print("Enter Product Name: ");
-            String productName = input.nextLine();
+            String productName;
+            while (true) {
+                System.out.print("Enter Product Name: ");
+                productName = input.nextLine();
+                if (!isValidProduct(productName)) {
+                    break;
+                } else {
+                    System.out.println("Invalid product name. Product already exist.");
+                }
+            }
 
             System.out.print("Enter the Product Ingredient: ");
             String productIngredient = input.nextLine();

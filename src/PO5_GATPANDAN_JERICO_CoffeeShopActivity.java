@@ -3,7 +3,7 @@ import java.util.Scanner;
 
 public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     static ArrayList<ArrayList<String>> products = new ArrayList<>();
-    static ArrayList<ArrayList<ArrayList<String>>> orders = new ArrayList<>();
+    static ArrayList<ArrayList<String>> orders = new ArrayList<>();
     private static int productNumber = 1;
     private static int orderID = 1001;
 
@@ -131,7 +131,6 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             String ID = generateOrderID(orderID);
             System.out.println("Order ID: " + ID);
 
-            String customerName = "";
             if (isFirstOrder) {
                 System.out.print("Enter Customer Name: ");
                 customerName = input.nextLine();
@@ -157,7 +156,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             order.add(orderQuantity);
             order.add(sugarLevel);
 
-            customerOrder.add(order);
+            orders.add(order);
             while (true) {
                 System.out.print("Would you like to order more? (Y/N): ");
                 char choice = input.nextLine().toUpperCase().trim().charAt(0);
@@ -166,11 +165,9 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
                     orderID++;
                     return;
                 } else if (choice == 'Y') {
-                    isFirstOrder = false;
                     break;
                 } else System.out.println("Invalid input. Please enter 'Y' or 'N'.");
             }
-            orders.add(customerOrder);
         }
 
     }
@@ -182,8 +179,13 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
         int totalWidth = NAME_WIDTH + PRICE_WIDTH + STATUS_WIDTH + 14;
         String border = "-".repeat(totalWidth);
 
+        String text = "MENU";
+        int padding = (totalWidth - text.length()) / 2;
+        String centeredText = String.format("%" + padding + "s%s%" + padding + "s", "", text, "");
+        System.out.println(centeredText);
+
         System.out.println(border);
-        System.out.printf("| %-" + NAME_WIDTH + "s | %-" + PRICE_WIDTH + "s | %-" + STATUS_WIDTH + "s |\n", "Product Name", "Price", "Status");
+        System.out.printf("| %-" + NAME_WIDTH + "s | %-" + PRICE_WIDTH + "s | %-" + STATUS_WIDTH + "s |\n", "Products", "Price", "Status");
         System.out.println(border);
 
         for (ArrayList<String> product : products) {
@@ -196,7 +198,6 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 //            System.out.printf("| %" + ID_WIDTH + "s | %" + NAME_WIDTH + "s | %" + INGREDIENTS_WIDTH + "s | %" + STATUS_WIDTH + "s | %-" + PRICE_WIDTH + "s |\n", id, name, ingredients, status, formattedPrice);
         }
         System.out.println(border);
-
 
 
     }

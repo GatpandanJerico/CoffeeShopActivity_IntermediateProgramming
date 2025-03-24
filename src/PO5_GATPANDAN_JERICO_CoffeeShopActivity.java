@@ -181,16 +181,18 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
             String sugarLevel;
             while (true) {
-
-                System.out.print("Enter sugar level: ");
-                sugarLevel = input.nextLine();
-                int sugarLevelInt = Integer.parseInt(sugarLevel);
-                if (orderQuantity.matches("\\d+") && (sugarLevelInt >= 0 && sugarLevelInt <= 100)) {
-                    break;
-                } else {
-                    System.out.println("Invalid sugar level. Please enter a valid quantity.");
+                System.out.print("Enter sugar level (0-100): ");
+                sugarLevel = input.nextLine().trim();
+                try {
+                    int sugarLevelInt = Integer.parseInt(sugarLevel);
+                    if (sugarLevelInt >= 0 && sugarLevelInt <= 100) {
+                        break;
+                    } else {
+                        System.out.println("Invalid sugar level. Please enter a number between 0 and 100.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input. Please enter a valid number.");
                 }
-
             }
 
             order.add(ID);

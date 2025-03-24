@@ -5,7 +5,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     static ArrayList<ArrayList<String>> products = new ArrayList<>();
     static ArrayList<ArrayList<ArrayList<String>>> orders = new ArrayList<>();
     private static int productNumber = 1;
-    private static int orderID = 1000;
+    private static int orderID = 1001;
 
 
     public static void main(String[] args) {
@@ -49,7 +49,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
         }
         mainMenu(input);
-        System.out.println(orders);
+        System.out.println(orders.getFirst());
     }
 
 
@@ -123,26 +123,29 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
     private static void takePreOrder(Scanner input) {
         ArrayList<ArrayList<String>> customerOrder = new ArrayList<>();
+        boolean isFirstOrder = true;
         while (true) {
             ArrayList<String> order = new ArrayList<>();
 
             String ID = generateOrderID(orderID);
             System.out.println("Order ID: " + ID);
 
-            System.out.print("Enter Customer Name: ");
-            String customerName = input.nextLine();
+            String customerName = "";
+            if (isFirstOrder) {
+                System.out.print("Enter Customer Name: ");
+                customerName = input.nextLine();
+            }
 
             viewMenu();
-            System.out.println("Enter Order Name: ");
+            System.out.print("Enter Order Name: ");
             String orderName = input.nextLine();
 
-            System.out.println("Enter the quantity of the product: ");
+            System.out.print("Enter the quantity of the product: ");
             String orderQuantity = input.nextLine();
 
             System.out.println("Enter sugar level: ");
             String sugarLevel = input.nextLine();
 
-            orderID++;
 
             order.add(ID);
             order.add(customerName);
@@ -156,8 +159,10 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
                 char choice = input.nextLine().toUpperCase().trim().charAt(0);
 
                 if (choice == 'N') {
+                    orderID++;
                     return;
                 } else if (choice == 'Y') {
+                    isFirstOrder = false;
                     break;
                 } else System.out.println("Invalid input. Please enter 'Y' or 'N'.");
             }
@@ -167,23 +172,33 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void viewMenu() {
+        int NAME_WIDTH = 14;
+        int PRICE_WIDTH = 14;
+        int STATUS_WIDTH = 14;
+        int totalWidth = NAME_WIDTH + PRICE_WIDTH + STATUS_WIDTH + 14;
+        String border = "-".repeat(totalWidth);
+
+        System.out.println(border);
+        System.out.printf("| %-" + NAME_WIDTH + "s | %-" + PRICE_WIDTH + "s | %-" + STATUS_WIDTH + "s |\n", "Product Name", "Price", "Status");
+        System.out.println(border);
+
+        for (ArrayList<String> product : products) {
+            String productName = product.get(1);
+            double price = Double.parseDouble(product.get(4));
+            String formattedPrice = String.format("PHP %.2f", price);
+            String status = product.get(3).equals("0") ? "Available" : "Not Available";
+
+            System.out.printf("| %-" + NAME_WIDTH + "s | %-" + PRICE_WIDTH + "s | %-" + STATUS_WIDTH + "s |\n", productName, formattedPrice, status);
+//            System.out.printf("| %" + ID_WIDTH + "s | %" + NAME_WIDTH + "s | %" + INGREDIENTS_WIDTH + "s | %" + STATUS_WIDTH + "s | %-" + PRICE_WIDTH + "s |\n", id, name, ingredients, status, formattedPrice);
+        }
+        System.out.println(border);
+
+
 
     }
 
     private static void viewOrder() {
     }
-
-//    private static void viewInventory() {
-//
-//        System.out.printf("________________________________________________________________________%n");
-//        System.out.printf("| %8s | %12s | %12s | %12s | %12s |\n", "ID", "Product Name", "Ingredients", "Status", "Price");
-//        for (ArrayList<String> product : products) {
-//            product.set(3, product.get(3).equals("0") ? "Available" : "Not Available");
-//            System.out.printf("| %8s | %12s | %12s | %12s | %-10s |\n", product.get(0), product.get(1), product.get(2), product.get(3), "PHP " +product.get(4));
-//        }
-//        System.out.printf("________________________________________________________________________%n");
-//
-//    }
 
     private static void viewInventory() {
         int ID_WIDTH = 8;

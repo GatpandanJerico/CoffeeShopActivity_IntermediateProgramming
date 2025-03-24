@@ -125,6 +125,16 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void deleteProduct(Scanner input) {
+        System.out.print("Enter Product ID or Name to delete: ");
+        String idOrName = input.nextLine();
+
+        for (ArrayList<String> product : products) {
+            if (product.get(0).equalsIgnoreCase(idOrName) || product.get(1).equalsIgnoreCase(idOrName)) {
+                products.remove(product);
+                System.out.println("Product deleted successfully!");
+            }
+        }
+        System.out.println("Product not found.");
     }
 
     private static void takePreOrder(Scanner input) {

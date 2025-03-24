@@ -65,7 +65,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             while (true) {
                 System.out.print("Enter Product Name: ");
                 productName = input.nextLine();
-                if (!isValidProduct(productName)) {
+                if (isValidProduct(productName)) {
                     break;
                 } else {
                     System.out.println("Invalid product name. Product already exist.");
@@ -157,15 +157,15 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
             viewMenu();
 
-            /* TODO check if the order name exist in product inventory  */
-            String orderName;
+
+            String orderName; // TODO Accept only if product is available
             while (true) {
                 System.out.print("Enter Order Name: ");
                 orderName = input.nextLine();
-                if (isValidProduct(orderName)) {
+                if (isAvailableProduct(orderName)) {
                     break;
                 } else {
-                    System.out.println("Invalid product. Please choose from the menu.");
+                    System.out.println("Invalid product or out of stock. Please choose from the menu.");
                 }
             }
             String orderQuantity;
@@ -219,7 +219,15 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
     private static boolean isValidProduct(String productName) {
         for (ArrayList<String> product : products) {
-            if (product.get(1).contains(productName)) {
+            if (product.get(1).equalsIgnoreCase(productName)) {
+                return false;
+            }
+        }
+        return true;
+    }
+    private static boolean isAvailableProduct(String productName) {
+        for (ArrayList<String> product : products) {
+            if (product.get(1).equalsIgnoreCase(productName) && product.get(3).equals("0")) {
                 return true;
             }
         }

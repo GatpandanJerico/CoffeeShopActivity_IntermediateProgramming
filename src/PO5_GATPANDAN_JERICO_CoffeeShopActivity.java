@@ -49,7 +49,6 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
         }
         mainMenu(input);
-        System.out.println(orders.getFirst());
     }
 
 
@@ -206,9 +205,9 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
     }
 
-    private static boolean isValidProduct(String orderName) {
+    private static boolean isValidProduct(String productName) {
         for (ArrayList<String> product : products) {
-            if (product.get(1).contains(orderName)) {
+            if (product.get(1).contains(productName)) {
                 return true;
             }
         }
@@ -258,7 +257,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
         System.out.println(border);
         System.out.printf("| %" + ID_WIDTH + "s | %" + CUSTOMER_NAME_WIDTH + "s | %" + PRODUCT_NAME_WIDTH + "s | %" + QUANTITY_WIDTH + "s | %" + SUGAR_LEVEL_WIDTH + "s | %" + AMOUNT_WIDTH + "s |\n",
-                "Order ID", "Customer Name","Product Name", "Quantity", "Sugar Level", "Amount");
+                "Order ID", "Customer Name", "Product Name", "Quantity", "Sugar Level", "Amount");
         System.out.println(border);
 
         double totalSum = 0;

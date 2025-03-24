@@ -14,41 +14,49 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void mainMenu(Scanner input) {
-        // Display the main menu
-        System.out.println("=== Coffee Shop ===");
-        System.out.println(" 1. Add Product\n 2. Edit Product\n 3. Delete Product\n 4. Take Pre-Order\n 5. View Menu\n 6. View Order\n 7. Inventory\n 8. Exit\n");
+        while (true) {
+            System.out.println("\n=== Coffee Shop ===");
+            System.out.println(" 1. Add Product\n 2. Edit Product\n 3. Delete Product\n 4. Take Pre-Order\n 5. View Menu\n 6. View Order\n 7. Inventory\n 8. Exit\n");
 
-        System.out.print("Enter your choice: ");
-        int choice = input.nextInt();
-        input.nextLine();
+            System.out.print("Enter your choice: ");
+            String choiceStr = input.nextLine().trim();
 
-        switch (choice) {
-            case 1:
-                addProduct(input);
-                break;
-            case 2:
-                editProduct(input);
-                break;
-            case 3:
-                deleteProduct(input);
-                break;
-            case 4:
-                takePreOrder(input);
-                break;
-            case 5:
-                viewMenu();
-                break;
-            case 6:
-                viewOrder();
-                break;
-            case 7:
-                viewInventory();
-                break;
-            case 8:
-                return;
+            if (!choiceStr.matches("[1-8]")) {
+                System.out.println("Invalid choice. Please enter a number between 1 and 8.");
+                continue;
+            }
+            int choice = Integer.parseInt(choiceStr);
 
+            switch (choice) {
+                case 1:
+                    addProduct(input);
+                    break;
+                case 2:
+                    editProduct(input);
+                    break;
+                case 3:
+                    deleteProduct(input);
+                    break;
+                case 4:
+                    takePreOrder(input);
+                    break;
+                case 5:
+                    viewMenu();
+                    break;
+                case 6:
+                    viewOrder();
+                    break;
+                case 7:
+                    viewInventory();
+                    break;
+                case 8:
+                    System.out.println("Exiting... Thank you!");
+                    return;
+                default:
+                    System.out.println("Invalid choice. Please select a number between 1 and 8.");
+
+            }
         }
-        mainMenu(input);
     }
 
 
@@ -72,7 +80,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
                 }
             }
 
-            System.out.print("Enter the Product Ingredient: ");
+            System.out.print("Enter the Product Ingredient (comma-separated): ");
             String productIngredient = input.nextLine();
 
             String productStatus;
@@ -121,20 +129,59 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void editProduct(Scanner input) {
+        viewInventory();
+        System.out.print("\nEnter Product ID or Name to edit: ");
+        String idOrName = input.nextLine();
 
+        for (ArrayList<String> product : products) {
+            if (product.get(0).equalsIgnoreCase(idOrName) || product.get(1).equalsIgnoreCase(idOrName)) {
+                System.out.println("Editing: " + product.get(0) + " - " + product.get(1));
+
+                System.out.print("Enter new name (or press Enter to keep current): ");
+                String newName = input.nextLine().trim();
+                if (!newName.isEmpty()) {
+                    product.set(1, newName);
+                }
+
+                System.out.print("Enter new ingredient (or press Enter to keep current): ");
+                String newIngredient = input.nextLine().trim();
+                if (!newIngredient.isEmpty()) {
+                    product.set(2, newIngredient);
+                }
+
+                System.out.print("Enter new product status (0 or 1) (or press Enter to keep the current): ");
+                String newStatus = input.nextLine().trim();
+                if (!newStatus.isEmpty()) {
+                    if (newStatus.equals("0") || newStatus.equals("1")) {
+                        product.set(3, newStatus);
+                    }
+                }
+
+                System.out.print("Enter new product price (or press Enter to keep current): ");
+                String newPrice = input.nextLine().trim();
+                if (!newPrice.isEmpty()) {
+                    product.set(4, newPrice);
+                }
+
+                return;
+            }
+        }
+        System.out.println("Product not found.\n");
     }
 
     private static void deleteProduct(Scanner input) {
-        System.out.print("Enter Product ID or Name to delete: ");
+        viewInventory();
+        System.out.print("\nEnter Product ID or Name to delete: ");
         String idOrName = input.nextLine();
 
         for (ArrayList<String> product : products) {
             if (product.get(0).equalsIgnoreCase(idOrName) || product.get(1).equalsIgnoreCase(idOrName)) {
                 products.remove(product);
-                System.out.println("Product deleted successfully!");
+                System.out.println("Product deleted successfully!\n");
+                return;
             }
         }
-        System.out.println("Product not found.");
+        System.out.println("Product not found.\n");
     }
 
     private static void takePreOrder(Scanner input) {
@@ -225,6 +272,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
         }
         return true;
     }
+
     private static boolean isAvailableProduct(String productName) {
         for (ArrayList<String> product : products) {
             if (product.get(1).equalsIgnoreCase(productName) && product.get(3).equals("0")) {
@@ -324,6 +372,12 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
         int PRICE_WIDTH = 14;
         int totalWidth = ID_WIDTH + NAME_WIDTH + INGREDIENTS_WIDTH + STATUS_WIDTH + PRICE_WIDTH + 14;
         String border = "-".repeat(totalWidth);
+
+        System.out.println();
+        String text = "INVENTORY";
+        int padding = (totalWidth - text.length()) / 2;
+        String centeredText = String.format("%" + padding + "s%s%" + padding + "s", "", text, "");
+        System.out.println(centeredText);
 
         System.out.println(border);
         System.out.printf("| %" + ID_WIDTH + "s | %" + NAME_WIDTH + "s | %" + INGREDIENTS_WIDTH + "s | %" + STATUS_WIDTH + "s | %" + PRICE_WIDTH + "s |\n",

@@ -122,8 +122,9 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     }
 
     private static void takePreOrder(Scanner input) {
-        ArrayList<ArrayList<String>> customerOrder = new ArrayList<>();
         boolean isFirstOrder = true;
+        String customerName = "";
+
         while (true) {
             ArrayList<String> order = new ArrayList<>();
 
@@ -134,6 +135,9 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             if (isFirstOrder) {
                 System.out.print("Enter Customer Name: ");
                 customerName = input.nextLine();
+                isFirstOrder = false;
+            } else {
+                System.out.println("Customer Name: " + customerName);
             }
 
             viewMenu();
@@ -143,7 +147,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
             System.out.print("Enter the quantity of the product: ");
             String orderQuantity = input.nextLine();
 
-            System.out.println("Enter sugar level: ");
+            System.out.print("Enter sugar level: ");
             String sugarLevel = input.nextLine();
 
 

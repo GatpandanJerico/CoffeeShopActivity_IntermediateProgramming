@@ -3,7 +3,9 @@ import java.util.Scanner;
 
 public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
     static ArrayList<ArrayList<String>> products = new ArrayList<>();
+    static ArrayList<ArrayList<ArrayList<String>>> orders = new ArrayList<>();
     private static int productNumber = 1;
+    private static int orderID = 1000;
 
 
     public static void main(String[] args) {
@@ -13,7 +15,7 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
     private static void mainMenu(Scanner input) {
         // Display the main menu
-        System.out.println("=== Coffee Shop Main Menu ===");
+        System.out.println("=== Coffee Shop ===");
         System.out.println(" 1. Add Product\n 2. Edit Product\n 3. Delete Product\n 4. Take Pre-Order\n 5. View Menu\n 6. View Order\n 7. Inventory\n 8. Exit\n");
 
         System.out.print("Enter your choice: ");
@@ -25,13 +27,13 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
                 addProduct(input);
                 break;
             case 2:
-                editProduct();
+                editProduct(input);
                 break;
             case 3:
-                deleteProduct();
+                deleteProduct(input);
                 break;
             case 4:
-                takePreOrder();
+                takePreOrder(input);
                 break;
             case 5:
                 viewMenu();
@@ -47,14 +49,19 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
         }
         mainMenu(input);
+        System.out.println(orders);
     }
 
+
     private static void addProduct(Scanner input) {
+
         while (true) {
             ArrayList<String> product = new ArrayList<>();
 
             String ID = generateProductID(productNumber);
-            System.out.println("Product ID: " + ID);
+            System.out.println("\nProduct ID: " + ID);
+
+            // TODO product name should not be duplicated
 
             System.out.print("Enter Product Name: ");
             String productName = input.nextLine();
@@ -107,17 +114,60 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
         }
     }
 
-    private static void editProduct() {
+    private static void editProduct(Scanner input) {
 
     }
 
-    private static void deleteProduct() {
+    private static void deleteProduct(Scanner input) {
     }
 
-    private static void takePreOrder() {
+    private static void takePreOrder(Scanner input) {
+        ArrayList<ArrayList<String>> customerOrder = new ArrayList<>();
+        while (true) {
+            ArrayList<String> order = new ArrayList<>();
+
+            String ID = generateOrderID(orderID);
+            System.out.println("Order ID: " + ID);
+
+            System.out.print("Enter Customer Name: ");
+            String customerName = input.nextLine();
+
+            viewMenu();
+            System.out.println("Enter Order Name: ");
+            String orderName = input.nextLine();
+
+            System.out.println("Enter the quantity of the product: ");
+            String orderQuantity = input.nextLine();
+
+            System.out.println("Enter sugar level: ");
+            String sugarLevel = input.nextLine();
+
+            orderID++;
+
+            order.add(ID);
+            order.add(customerName);
+            order.add(orderName);
+            order.add(orderQuantity);
+            order.add(sugarLevel);
+
+            customerOrder.add(order);
+            while (true) {
+                System.out.print("Would you like to order more? (Y/N): ");
+                char choice = input.nextLine().toUpperCase().trim().charAt(0);
+
+                if (choice == 'N') {
+                    return;
+                } else if (choice == 'Y') {
+                    break;
+                } else System.out.println("Invalid input. Please enter 'Y' or 'N'.");
+            }
+            orders.add(customerOrder);
+        }
+
     }
 
     private static void viewMenu() {
+
     }
 
     private static void viewOrder() {
@@ -165,5 +215,9 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
     private static String generateProductID(int productID) {
         return String.format("%04d", productID);
+    }
+
+    private static String generateOrderID(int orderID) {
+        return String.format("%04d", orderID);
     }
 }

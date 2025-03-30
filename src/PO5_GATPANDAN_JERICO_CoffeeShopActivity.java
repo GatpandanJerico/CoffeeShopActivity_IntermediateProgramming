@@ -15,7 +15,10 @@ public class PO5_GATPANDAN_JERICO_CoffeeShopActivity {
 
     private static void mainMenu(Scanner input) {
         while (true) {
-            System.out.println("\n=== Coffee Shop ===");
+            System.out.print("-".repeat(15));
+            System.out.println("\n| Coffee Shop |");
+            System.out.println("-".repeat(15));
+
             System.out.println(" 1. Add Product\n 2. Edit Product\n 3. Delete Product\n 4. Take Pre-Order\n 5. View Menu\n 6. View Order\n 7. Inventory\n 8. Exit\n");
 
             System.out.print("Enter your choice: ");
